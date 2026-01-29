@@ -1,0 +1,125 @@
+{
+  "project": {
+    "name": "Celentrail",
+    "canonical_repo": true,
+    "last_updated": "2026-01-30",
+    "language": "ru"
+  },
+  "rules": {
+    "no_geometry_changes_without_owner_confirmation": true,
+    "work_only_via_repo_files": true,
+    "source_of_truth_order": [
+      "START_HERE.md",
+      "CANONICAL.md",
+      "PROMPT_FOR_ANY_AI.md",
+      "data/AI_CONTEXT.json"
+    ]
+  },
+  "system_summary": {
+    "one_liner": "Celentrail — скрытая консольная система раздвижных дверей: балка-направляющая + тележка с роликами внутри профиля.",
+    "goals": [
+      "тихий ход",
+      "низкое усилие старта",
+      "высокая жёсткость консоли",
+      "масштабируемое производство"
+    ]
+  },
+  "geometry": {
+    "balka_model_alias": "balka (v7_leg15)",
+    "balka": {
+      "length_mm": 1150,
+      "angles": [
+        {
+          "type": "steel_angle",
+          "size_mm": [20, 20],
+          "orientation": "upper_apex_up"
+        },
+        {
+          "type": "steel_angle",
+          "size_mm": [20, 20],
+          "orientation": "lower_apex_down"
+        }
+      ],
+      "inner_apex_to_apex_distance_mm": 97.4,
+      "plates": [
+        {
+          "position": "upper_outer_apex",
+          "size_mm": [50, 2, 1150],
+          "direction": "50mm_up"
+        },
+        {
+          "position": "lower_outer_apex",
+          "size_mm": [50, 2, 1150],
+          "direction": "50mm_down"
+        }
+      ],
+      "side_walls": {
+        "count": 2,
+        "thickness_mm": 2,
+        "width_mm": 20,
+        "note": "Высота/габариты боковин фиксируются по фактической 3D-модели балки; в тексте ранее встречались два утверждения."
+      }
+    }
+  },
+  "trolley_and_mount": {
+    "mount_plate": {
+      "material": "steel",
+      "thickness_mm": 12,
+      "size_mm": [340, 240],
+      "stud_offsets_mm": {
+        "from_edges": 40
+      }
+    },
+    "studs": {
+      "diameter_mm": 20,
+      "height_mm": 35
+    },
+    "mount_height_mm": 2300
+  },
+  "rollers_and_track": {
+    "base_diameter_mm": 80,
+    "working_width_mm": 15,
+    "bearing": "6204-2RS",
+    "v_contact": {
+      "track_angle_deg": "100-110 (prefer 110 for startup)",
+      "roller_angle_deg": "104-108 when track=110",
+      "contact": "two-point (no tip bottoming)"
+    },
+    "materials_strategy": {
+      "upper_rollers": "Ertalyte TX (PET-P + solid lube) V-rim on metal core",
+      "lower_rollers": "PU damper/clamp, preferred 3-5mm, 95-98A (or current 10mm 88-92A)"
+    }
+  },
+  "loads": {
+    "door_plus_balka_mass_kg": 60,
+    "com_offset_mm": 575,
+    "roller_base_mm": 260,
+    "moment_Nm": 339,
+    "extreme_positions": {
+      "close_left": {
+        "upper_left_N": 1300,
+        "lower_right_N": 713
+      },
+      "open_right": {
+        "upper_right_N": 1300,
+        "lower_left_N": 713
+      }
+    },
+    "note": "Upper rollers are main load-bearing; lower rollers provide support/clamping."
+  },
+  "feel_targets": {
+    "running_force_N": [4, 8],
+    "startup_force_N": [10, 18],
+    "conditions": [
+      "clean V-contact",
+      "precise alignment",
+      "correct V-angles"
+    ]
+  },
+  "viewer_and_build": {
+    "pages_expected": true,
+    "glb_output_path": "assets/3d/balka/latest/balka.glb",
+    "viewer_entry": "index.html",
+    "actions_workflow": ".github/workflows/build_glb.yml"
+  }
+}
